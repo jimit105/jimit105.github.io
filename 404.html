@@ -27,15 +27,49 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1>Page Not Found</h1>
-                        <p>Return to <a href="https://jimit105.github.io/">Main Page</a></p>
+						<h1>Page Not Found</h1>                      
+                                                
+                        <p>Redirecting you to home page in <span id="countdown">8 seconds</span></p>
+                        
+                        <p>If you are not automatically redirected, <a href="index.html">click here</a></p>
 						<nav>
 							<ul>
-                                <li><a href="https://jimit105.github.io/" class="icon fa-link"><span class="label">Main Page</span></a></li>
+                                <li><a href="index.html" class="icon fa-link"><span class="label">Main Page</span></a></li>
                             </ul>
 
 						</nav>
 					</header>
+                
+                 <!-- JavaScript part -->
+                <script type="text/javascript">
+    
+                    // Total seconds to wait
+                    var seconds = 8;
+    
+                    function countdown() {
+                        seconds = seconds - 1;
+                        if (seconds < 0) {
+                        // Change your redirection link here
+                            window.location = "index.html";
+                            
+                        } else {
+                            // Update remaining seconds
+                            if(seconds < 2){
+                            document.getElementById("countdown").innerHTML = seconds + " second";
+                                
+                            } else{
+                                document.getElementById("countdown").innerHTML = seconds + " seconds";    
+                            }
+                                                        
+                            // Count down using javascript
+                            window.setTimeout("countdown()", 1000);
+                        }
+                    }
+    
+                // Run countdown function
+                    countdown();
+                    
+                </script>
 
 				<!-- Footer -->
 					<footer id="footer">

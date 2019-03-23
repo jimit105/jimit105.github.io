@@ -2,6 +2,16 @@
 
 <html>
 	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136790987-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136790987-1');
+</script>
+
 		<title>Error | Jimit Dholakia</title>
 
         <!-- META INFORMATION -->
@@ -27,10 +37,10 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1>Page Not Found</h1>                      
-                                                
+						<h1>Page Not Found</h1>
+
                         <p>Redirecting you to home page in <span id="countdown">8 seconds</span></p>
-                        
+
                         <p>If you are not automatically redirected, <a href="index.html">click here</a></p>
 						<nav>
 							<ul>
@@ -39,36 +49,36 @@
 
 						</nav>
 					</header>
-                
+
                  <!-- JavaScript part -->
                 <script type="text/javascript">
-    
+
                     // Total seconds to wait
                     var seconds = 8;
-    
+
                     function countdown() {
                         seconds = seconds - 1;
                         if (seconds < 0) {
                         // Change your redirection link here
                             window.location = "index.html";
-                            
+
                         } else {
                             // Update remaining seconds
                             if(seconds < 2){
                             document.getElementById("countdown").innerHTML = seconds + " second";
-                                
+
                             } else{
-                                document.getElementById("countdown").innerHTML = seconds + " seconds";    
+                                document.getElementById("countdown").innerHTML = seconds + " seconds";
                             }
-                                                        
+
                             // Count down using javascript
                             window.setTimeout("countdown()", 1000);
                         }
                     }
-    
+
                 // Run countdown function
                     countdown();
-                    
+
                 </script>
 
 				<!-- Footer -->

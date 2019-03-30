@@ -33,6 +33,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/resume.min.css" rel="stylesheet">
+  <link href="css/form.min.css" rel="stylesheet">
 
 </head>
 
@@ -69,6 +70,9 @@
       -->
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#awards">Certifications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#contact">Contact Me</a>
         </li>
       </ul>
     </div>
@@ -276,6 +280,85 @@
               ...
           </li>
         </ul>
+      </div>
+    </section>
+
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
+      <div class="w-100">
+        <h2 class="mb-5">Contact Me</h2>
+
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+        <div class="container">
+
+        <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfiFSlmIvROGveAjh8oY2gML5HEbyj9r4nmNY4TIV8N2qVXgA/formResponse" method="post" target="hidden_iframe">
+
+          <div class="row">
+            <div class="col-25">
+              <label for="entry.1321453597">Name</label>
+            </div>
+            <div class="col-75">
+              <input type="text" name="entry.1321453597" placeholder="Your name.." required onblur="requiredField(this)"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="entry.131246219">Email</label>
+            </div>
+            <div class="col-75">
+              <input type="email" name="entry.131246219" placeholder="Your email id.." required onblur="requiredField(this)"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="entry.1579289164">Subject</label>
+            </div>
+            <div class="col-75">
+              <input type="text" name="entry.1579289164" placeholder="Enter subject.." required onblur="requiredField(this)"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="entry.1322513133">Message</label>
+            </div>
+            <div class="col-75">
+              <textarea name="entry.1322513133" placeholder="Write something.." style="height:150px" required onblur="requiredField(this)"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <input type="submit" value="Submit" onclick="submitForm()">
+          </div>
+        </form>
+        </div>
+
+      <span id='formSubmit'></span>
+
+      <script>
+        function submitForm() {
+            document.getElementById('contactForm').submit();
+            document.getElementById('formSubmit').innerHTML = '<span style="color:#BD5D38"><strong>Form submitted.</strong></span>';
+            document.getElementById('contactForm').reset();
+        }
+        </script>
+
+        <script>
+        function requiredField(input) {
+            if (input.value.length < 1) {
+                //red border
+                input.style.borderColor = "#e74c3c";
+            }
+            else {
+                input.style.borderColor = "";
+            }
+        }
+        </script>
+
       </div>
     </section>
 

@@ -1,8 +1,2 @@
-author: Jimit Dholakia
-title: Jimit Dholakia
-description: Jimit Dholakia | Machine Learning Engineer | Mumbai, India
-  
 plugins:
   - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-feed

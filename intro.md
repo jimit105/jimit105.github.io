@@ -1,5 +1,3 @@
-<meta name="google-site-verification" content="akcvNyz4-Jn07K_YDAi2S7pIhQu86ySkHSRyLOyo1HM" />
-
 # Introduction
 
 ## Jimit Dholakia

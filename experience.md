@@ -13,7 +13,7 @@ March 2018 - May 2018 | Internship
 
 ### Internshala Student Partner
 March 2017 - May 2018 | Internship  
-#### Roles:
+#### Roles
 - To help out college peers with latest internships and training offers and assist them with internship/training related queries
 - To promote Internshala and Internshala products among students using word-of-mouth publicity, emails, and social media.
 

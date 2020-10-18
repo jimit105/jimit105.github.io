@@ -1,23 +1,2 @@
-# Book settings
-title: Jimit Dholakia
-author: Jimit Dholakia
-  
-launch_buttons:
-  binderhub_url: https://mybinder.org
-  colab_url: https://colab.research.google.com
-  thebe: true
-
-repository:
-  url: https://github.com/jimit105/jimit105.github.io
-  
-html:
-  google_analytics_id: UA-136790987-1
-  home_page_in_navbar: true
-  baseurl: https://jimit105.github.io
-  favicon: favicon.png
-  extra_navbar: ""
-  
-sphinx:
-  extra_extensions: ['sphinx_sitemap']
-  config:
-    html_extra_path: ['robots.txt']
+plugins:
+  - jekyll-sitemap

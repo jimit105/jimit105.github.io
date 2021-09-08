@@ -75,6 +75,23 @@ p.lead {
   background-color: #BD5D38;
 }
 
+.download-icons a {
+  display: inline-block;
+  height: 3.5rem;
+  width: 15rem;
+  background-color: #495057;
+  color: #fff !important;
+  border-radius: 15%;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 3.5rem;
+  margin-right: 1rem;
+}
+
+.download-icons a:hover {
+  background-color: #BD5D38;
+}
+
 .dev-icons {
   font-size: 3rem;
 }

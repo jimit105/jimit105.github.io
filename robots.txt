@@ -1,0 +1,6 @@
+---
+layout: none
+---
+User-agent: *
+Disallow: /u/25223469
+Sitemap: {{ site.url }}/sitemap.xml

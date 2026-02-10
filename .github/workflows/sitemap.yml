@@ -2,9 +2,12 @@ name: Generate Multi-Repo Sitemap
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - 'sitemap.xml'
+      - 'robots.txt'
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 1,4'
 
 jobs:
   sitemap:
@@ -17,24 +20,35 @@ jobs:
           cat > sitemap.xml << 'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <url><loc>https://jimit105.github.io/</loc></url>
           EOF
+          
+          echo "  <url>" >> sitemap.xml
+          echo "    <loc>https://jimit105.github.io/</loc>" >> sitemap.xml
+          echo "    <lastmod>$(date -u +%Y-%m-%dT%H:%M:%S+00:00)</lastmod>" >> sitemap.xml
+          echo "    <changefreq>weekly</changefreq>" >> sitemap.xml
+          echo "    <priority>1.0</priority>" >> sitemap.xml
+          echo "  </url>" >> sitemap.xml
           
           echo "Discovering repos with GitHub Pages enabled..."
           curl -s "https://api.github.com/users/jimit105/repos?per_page=100" | \
-          jq -r '.[] | select(.has_pages == true) | .name' | \
-          while read repo; do
+          jq -r '.[] | select(.has_pages == true) | "\(.name)|\(.pushed_at)"' | \
+          while IFS='|' read repo lastmod; do
             echo "Processing repo: $repo"
             curl -s "https://api.github.com/repos/jimit105/$repo/contents" | \
             jq -r '.[] | select(.name | endswith(".html") or endswith(".md")) | select(.name | ascii_downcase | startswith("readme") | not) | .name' | \
             while read file; do
               if [[ $file == *.html ]]; then
-                echo "  - Added: $repo/$file"
-                echo "  <url><loc>https://jimit105.github.io/$repo/$file</loc></url>" >> sitemap.xml
+                url="$repo/$file"
               else
-                echo "  - Added: $repo/${file%.md}.html"
-                echo "  <url><loc>https://jimit105.github.io/$repo/${file%.md}.html</loc></url>" >> sitemap.xml
+                url="$repo/${file%.md}.html"
               fi
+              echo "  - Added: $url"
+              echo "  <url>" >> sitemap.xml
+              echo "    <loc>https://jimit105.github.io/$url</loc>" >> sitemap.xml
+              echo "    <lastmod>$lastmod</lastmod>" >> sitemap.xml
+              echo "    <changefreq>monthly</changefreq>" >> sitemap.xml
+              echo "    <priority>0.8</priority>" >> sitemap.xml
+              echo "  </url>" >> sitemap.xml
             done
           done
           
@@ -53,7 +67,6 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add sitemap.xml robots.txt
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update sitemap and robots.txt"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update sitemap and robots.txt [skip ci]"
           git push
-
 

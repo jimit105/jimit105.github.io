@@ -1,0 +1,49 @@
+name: Generate Multi-Repo Sitemap
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Generate sitemap and robots.txt
+        run: |
+          # Generate sitemap
+          cat > sitemap.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url><loc>https://jimit105.github.io/</loc></url>
+          EOF
+          
+          curl -s "https://api.github.com/users/jimit105/repos?per_page=100" | \
+          jq -r '.[] | select(.has_pages == true) | .name' | \
+          while read repo; do
+            curl -s "https://api.github.com/repos/jimit105/$repo/contents" | \
+            jq -r '.[] | select(.name | endswith(".html") or endswith(".md")) | .name' | \
+            while read file; do
+              echo "  <url><loc>https://jimit105.github.io/$repo/${file%.md}.html</loc></url>" >> sitemap.xml
+            done
+          done
+          
+          echo "</urlset>" >> sitemap.xml
+          
+          # Generate robots.txt
+          cat > robots.txt << 'EOF'
+          User-agent: *
+          Allow: /
+          
+          Sitemap: https://jimit105.github.io/sitemap.xml
+          EOF
+      
+      - name: Commit files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sitemap.xml robots.txt
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update sitemap and robots.txt"
+          git push
+

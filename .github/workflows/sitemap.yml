@@ -3,6 +3,8 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   sitemap:
@@ -12,7 +14,6 @@ jobs:
       
       - name: Generate sitemap and robots.txt
         run: |
-          # Generate sitemap
           cat > sitemap.xml << 'EOF'
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -23,15 +24,18 @@ jobs:
           jq -r '.[] | select(.has_pages == true) | .name' | \
           while read repo; do
             curl -s "https://api.github.com/repos/jimit105/$repo/contents" | \
-            jq -r '.[] | select(.name | endswith(".html") or endswith(".md")) | .name' | \
+            jq -r '.[] | select(.name | endswith(".html") or endswith(".md")) | select(.name | ascii_downcase | startswith("readme") | not) | .name' | \
             while read file; do
-              echo "  <url><loc>https://jimit105.github.io/$repo/${file%.md}.html</loc></url>" >> sitemap.xml
+              if [[ $file == *.html ]]; then
+                echo "  <url><loc>https://jimit105.github.io/$repo/$file</loc></url>" >> sitemap.xml
+              else
+                echo "  <url><loc>https://jimit105.github.io/$repo/${file%.md}.html</loc></url>" >> sitemap.xml
+              fi
             done
           done
           
           echo "</urlset>" >> sitemap.xml
           
-          # Generate robots.txt
           cat > robots.txt << 'EOF'
           User-agent: *
           Allow: /

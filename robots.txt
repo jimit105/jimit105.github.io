@@ -1,6 +1,4 @@
----
-layout: none
----
 User-agent: *
-Disallow: /u/25223469
-Sitemap: {{ site.url }}/sitemap.xml
+Allow: /
+
+Sitemap: https://jimit105.github.io/sitemap.xml

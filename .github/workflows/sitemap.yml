@@ -20,21 +20,26 @@ jobs:
             <url><loc>https://jimit105.github.io/</loc></url>
           EOF
           
+          echo "Discovering repos with GitHub Pages enabled..."
           curl -s "https://api.github.com/users/jimit105/repos?per_page=100" | \
           jq -r '.[] | select(.has_pages == true) | .name' | \
           while read repo; do
+            echo "Processing repo: $repo"
             curl -s "https://api.github.com/repos/jimit105/$repo/contents" | \
             jq -r '.[] | select(.name | endswith(".html") or endswith(".md")) | select(.name | ascii_downcase | startswith("readme") | not) | .name' | \
             while read file; do
               if [[ $file == *.html ]]; then
+                echo "  - Added: $repo/$file"
                 echo "  <url><loc>https://jimit105.github.io/$repo/$file</loc></url>" >> sitemap.xml
               else
+                echo "  - Added: $repo/${file%.md}.html"
                 echo "  <url><loc>https://jimit105.github.io/$repo/${file%.md}.html</loc></url>" >> sitemap.xml
               fi
             done
           done
           
           echo "</urlset>" >> sitemap.xml
+          echo "Sitemap generation complete!"
           
           cat > robots.txt << 'EOF'
           User-agent: *
@@ -50,4 +55,5 @@ jobs:
           git add sitemap.xml robots.txt
           git diff --quiet && git diff --staged --quiet || git commit -m "Update sitemap and robots.txt"
           git push
+
 
